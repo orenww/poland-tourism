@@ -1,0 +1,34 @@
+{
+  "header": {
+    "title": "תיירות פולין",
+    "searchPlaceholder": "חפש יעדים, אטרקציות, מסלולים..."
+  },
+  "home": {
+    "title": "גלה את פולין",
+    "subtitle": "גלה יעדים וחוויות מדהימים",
+    "searchResults": "תוצאות חיפוש עבור:",
+    "noResults": "לא נמצאו תוצאות",
+    "tabs": {
+      "locations": "מקומות",
+      "attractions": "אטרקציות",
+      "routes": "מסלולים"
+    }
+  },
+  "detail": {
+    "backToHome": "חזרה לדף הבית",
+    "notFound": "הפריט לא נמצא",
+    "tabs": {
+      "Overview": "סקירה",
+      "Restaurants": "מסעדות",
+      "Hotels": "מלונות",
+      "Attractions": "אטרקציות",
+      "Practical_Info": "מידע שימושי",
+      "Hours_Prices": "שעות ומחירים",
+      "How_To_Get_There": "איך להגיע",
+      "Tips": "טיפים",
+      "Itinerary": "מסלול",
+      "Map": "מפה",
+      "Budget": "תקציב"
+    }
+  }
+}

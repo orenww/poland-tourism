@@ -1,0 +1,27 @@
+{
+  "header": {
+    "title": "Poland Tourism",
+    "searchPlaceholder": "Search destinations, attractions, routes..."
+  },
+  "home": {
+    "title": "Explore Poland",
+    "subtitle": "Discover amazing destinations and experiences",
+    "searchResults": "Search results for:",
+    "noResults": "No results found",
+    "tabs": {
+      "locations": "Locations",
+      "attractions": "Attractions",
+      "routes": "Routes"
+    }
+  },
+  "detail": {
+    "backToHome": "Back to Home",
+    "notFound": "Item not found",
+    "tabs": {
+      "Overview": "Overview",
+      "Restaurants": "Restaurants",
+      "Hotels": "Hotels",
+      "Practical_Info": "Practical Info"
+    }
+  }
+}
