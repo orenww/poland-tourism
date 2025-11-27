@@ -13,6 +13,7 @@ import {
   DollarSign,
   Calendar,
 } from "lucide-react";
+import { JSX } from "react";
 
 interface TabsProps {
   tabs: string[];
