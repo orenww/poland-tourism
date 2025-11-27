@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { items } from "../data/item";
 import Tabs from "../components/Tabs";
 import Breadcrumbs from "../components/Breadcrumbs";
+import { getContentFieldsForCategory } from "../utils/categoryUtils";
 
 interface ItemData {
   id: string;
@@ -16,15 +17,23 @@ interface ItemData {
 
 function DetailPage() {
   const { id } = useParams();
-  const [activeTab, setActiveTab] = useState("Overview");
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
 
   const item = items.find((item) => item.id === id);
-  // TODO: When adding English support, use getLocalizedContent(item.name, language)
-  // TODO: When adding English support, use getLocalizedContent(item.description, language)
-  // TODO: When adding English support, use getLocalizedContent(item.longDescription, language)
-  // TODO: When adding English support, use getLocalizedContent(item.content[activeTab], language)
+
+  // Get base tabs for category
+  const baseTabs = item
+    ? getContentFieldsForCategory(item.category)
+    : ["Overview"];
+
+  // Add "Discounts" tab if item has discount content
+  const tabs =
+    item?.content.Discounts && item.content.Discounts.trim() !== ""
+      ? [...baseTabs, "Discounts"]
+      : baseTabs;
+
+  const [activeTab, setActiveTab] = useState(tabs[0]);
 
   useEffect(() => {
     if (item) {
@@ -45,27 +54,6 @@ function DetailPage() {
     );
   }
 
-  // Different tabs based on category - English keys
-  const getTabsForCategory = (category: string) => {
-    switch (category) {
-      case "Locations":
-        return [
-          "Overview",
-          "Restaurants",
-          "Hotels",
-          "Attractions",
-          "Practical_Info",
-        ];
-      case "Attractions":
-        return ["Overview", "Hours_Prices", "How_To_Get_There", "Tips"];
-      case "Routes":
-        return ["Itinerary", "Map", "Budget", "Tips"];
-      default:
-        return ["Overview"];
-    }
-  };
-
-  const tabs = getTabsForCategory(item.category);
   return (
     <div
       className="bg-gray-50 min-h-screen"
@@ -73,16 +61,6 @@ function DetailPage() {
     >
       <div className="container mx-auto px-4 py-6">
         <Breadcrumbs category={item.category} itemName={item.name} />
-
-        {/* <button
-          onClick={() => navigate("/")}
-          className="mb-4 flex items-center text-blue-600 hover:text-blue-800 font-semibold"
-        >
-          <span className={i18n.language === "he" ? "ml-2" : "mr-2"}>
-            {i18n.language === "he" ? "→" : "←"}
-          </span>
-          {t("detail.backToHome")}
-        </button> */}
 
         <h1 className="text-3xl font-bold text-gray-800 mb-3">{item.name}</h1>
         <p className="text-lg text-gray-600 mb-6">{item.description}</p>

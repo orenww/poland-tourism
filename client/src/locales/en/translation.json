@@ -11,7 +11,8 @@
     "tabs": {
       "locations": "Locations",
       "attractions": "Attractions",
-      "routes": "Routes"
+      "routes": "Routes",
+      "discounts": "Discounts"
     }
   },
   "detail": {
@@ -28,7 +29,28 @@
       "Tips": "Tips",
       "Itinerary": "Itinerary",
       "Map": "Map",
-      "Budget": "Budget"
+      "Budget": "Budget",
+      "Discounts": "Discounts"
+    }
+  },
+  "admin": {
+    "login": {
+      "title": "Admin Login",
+      "username": "Username",
+      "password": "Password",
+      "usernamePlaceholder": "Enter username",
+      "passwordPlaceholder": "Enter password",
+      "loginButton": "Login",
+      "error": "Please enter username and password",
+      "mockNote": "Mock login - any username/password works for now"
+    },
+    "dashboard": {
+      "title": "Admin Dashboard",
+      "logout": "Logout",
+      "allItems": "All Items",
+      "addNew": "Add New Item",
+      "edit": "Edit",
+      "delete": "Delete"
     }
   }
 }

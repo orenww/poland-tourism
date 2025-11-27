@@ -4,6 +4,8 @@ import HomePage from "./pages/HomePage";
 import Header from "./components/Header";
 import DetailPage from "./pages/DetailPage";
 import { useState } from "react";
+import AdminPage from "./pages/admin/AdminPage";
+import ItemForm from "./pages/admin/ItemForm";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -25,6 +27,9 @@ function App() {
         <Route path="/locations/:id" element={<DetailPage />} />
         <Route path="/attractions/:id" element={<DetailPage />} />
         <Route path="/routes/:id" element={<DetailPage />} />
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/admin/item/new" element={<ItemForm />} />
+        <Route path="/admin/item/edit/:id" element={<ItemForm />} />
       </Routes>
     </div>
   );

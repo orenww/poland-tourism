@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Tabs from "../components/Tabs";
 import ItemCard from "../components/ItemCard";
@@ -10,21 +10,29 @@ interface HomePageProps {
 }
 
 function HomePage({ searchQuery }: HomePageProps) {
-  const location = useLocation();
-  const [activeTab, setActiveTab] = useState(
-    location.state?.activeTab || "Locations"
-  );
   const navigate = useNavigate();
+  const location = useLocation();
   const { t, i18n } = useTranslation();
 
-  // TODO: When adding English support, use getLocalizedContent() for item.name and item.description in search/display
+  // Get unique categories dynamically from items
+  const categories = [...new Set(items.map((item) => item.category))];
+  // Add "Discounts" as special aggregated tab
+  const tabs = [...categories, "Discounts"];
+
+  const [activeTab, setActiveTab] = useState(tabs[0]);
+
+  useEffect(() => {
+    if (location.state?.activeTab) {
+      setActiveTab(location.state.activeTab);
+    }
+  }, [location.state]);
 
   useEffect(() => {
     document.title = `${t("home.title")} | ${t("header.title")}`;
   }, [t]);
 
   const filteredItems = items.filter((item) => {
-    // If searching, ignore tab filter and search all items
+    // If searching, search all items
     if (searchQuery) {
       return (
         item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -32,12 +40,17 @@ function HomePage({ searchQuery }: HomePageProps) {
       );
     }
 
-    // If not searching, filter by active tab only
+    // If "Discounts" tab is active, show items that have discounts
+    if (activeTab === "Discounts") {
+      return item.content.Discounts && item.content.Discounts.trim() !== "";
+    }
+
+    // Otherwise filter by category
     return item.category === activeTab;
   });
 
   const handleCardClick = (id: string, category: string) => {
-    const categoryPath = category.toLowerCase(); // "Locations" → "locations"
+    const categoryPath = category.toLowerCase();
     navigate(`/${categoryPath}/${id}`);
   };
 
@@ -55,17 +68,12 @@ function HomePage({ searchQuery }: HomePageProps) {
         </div>
       </div>
 
-      {/* Main Content */}
       <main
         className="container mx-auto px-4 py-8 bg-gray-50 min-h-screen"
         dir={i18n.language === "he" ? "rtl" : "ltr"}
       >
         {!searchQuery && (
-          <Tabs
-            tabs={["Locations", "Attractions", "Routes"]}
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-          />
+          <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
         )}
 
         {searchQuery && (

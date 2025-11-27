@@ -11,7 +11,8 @@
     "tabs": {
       "locations": "מקומות",
       "attractions": "אטרקציות",
-      "routes": "מסלולים"
+      "routes": "מסלולים",
+      "discounts": "הנחות"
     }
   },
   "detail": {
@@ -28,7 +29,28 @@
       "Tips": "טיפים",
       "Itinerary": "מסלול",
       "Map": "מפה",
-      "Budget": "תקציב"
+      "Budget": "תקציב",
+      "discounts": "הנחות"
+    }
+  },
+  "admin": {
+    "login": {
+      "title": "כניסת מנהל",
+      "username": "שם משתמש",
+      "password": "סיסמה",
+      "usernamePlaceholder": "הזן שם משתמש",
+      "passwordPlaceholder": "הזן סיסמה",
+      "loginButton": "התחבר",
+      "error": "אנא הזן שם משתמש וסיסמה",
+      "mockNote": "כניסה דמה - כל שם משתמש/סיסמה עובדים כרגע"
+    },
+    "dashboard": {
+      "title": "לוח בקרה",
+      "logout": "התנתק",
+      "allItems": "כל הפריטים",
+      "addNew": "הוסף פריט חדש",
+      "edit": "ערוך",
+      "delete": "מחק"
     }
   }
 }
