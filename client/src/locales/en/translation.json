@@ -21,7 +21,14 @@
       "Overview": "Overview",
       "Restaurants": "Restaurants",
       "Hotels": "Hotels",
-      "Practical_Info": "Practical Info"
+      "Attractions": "Attractions",
+      "Practical_Info": "Practical Info",
+      "Hours_Prices": "Hours & Prices",
+      "How_To_Get_There": "How to Get There",
+      "Tips": "Tips",
+      "Itinerary": "Itinerary",
+      "Map": "Map",
+      "Budget": "Budget"
     }
   }
 }

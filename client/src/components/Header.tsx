@@ -9,7 +9,7 @@ interface HeaderProps {
 
 function Header({ title, searchQuery, onSearchChange }: HeaderProps) {
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation(); // Add this line
+  const { t, i18n } = useTranslation();
 
   return (
     <header
@@ -17,7 +17,7 @@ function Header({ title, searchQuery, onSearchChange }: HeaderProps) {
       dir={i18n.language === "he" ? "rtl" : "ltr"}
     >
       <div className="container mx-auto">
-        <div className="container mx-auto flex items-center justify-between">
+        <div className="flex items-center justify-between mb-4">
           <h1
             className="text-4xl font-bold cursor-pointer hover:text-blue-100 transition-colors"
             onClick={() => navigate("/")}

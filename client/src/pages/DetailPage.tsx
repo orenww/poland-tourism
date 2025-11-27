@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { items } from "../data/item";
 import Tabs from "../components/Tabs";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 interface ItemData {
   id: string;
@@ -48,7 +49,13 @@ function DetailPage() {
   const getTabsForCategory = (category: string) => {
     switch (category) {
       case "Locations":
-        return ["Overview", "Restaurants", "Hotels", "Attractions", "Practical_Info"];
+        return [
+          "Overview",
+          "Restaurants",
+          "Hotels",
+          "Attractions",
+          "Practical_Info",
+        ];
       case "Attractions":
         return ["Overview", "Hours_Prices", "How_To_Get_There", "Tips"];
       case "Routes":
@@ -59,39 +66,35 @@ function DetailPage() {
   };
 
   const tabs = getTabsForCategory(item.category);
-
   return (
     <div
-      className="container mx-auto px-4 py-8"
+      className="bg-gray-50 min-h-screen"
       dir={i18n.language === "he" ? "rtl" : "ltr"}
     >
-      <button
-        onClick={() => navigate("/")}
-        className="mb-6 flex items-center text-blue-600 hover:text-blue-800 font-semibold"
-      >
-        <span className={i18n.language === "he" ? "ml-2" : "mr-2"}>
-          {i18n.language === "he" ? "→" : "←"}
-        </span>
-        {t("detail.backToHome")}
-      </button>
+      <div className="container mx-auto px-4 py-6">
+        <Breadcrumbs category={item.category} itemName={item.name} />
 
-      <img
-        src={item.image}
-        alt={item.name}
-        className="w-200 h-48 object-cover rounded-lg mb-8"
-      />
+        {/* <button
+          onClick={() => navigate("/")}
+          className="mb-4 flex items-center text-blue-600 hover:text-blue-800 font-semibold"
+        >
+          <span className={i18n.language === "he" ? "ml-2" : "mr-2"}>
+            {i18n.language === "he" ? "→" : "←"}
+          </span>
+          {t("detail.backToHome")}
+        </button> */}
 
-      <h1 className="text-5xl font-bold text-gray-800 mb-4">{item.name}</h1>
-      <p className="text-xl text-gray-600 mb-8">{item.description}</p>
+        <h1 className="text-3xl font-bold text-gray-800 mb-3">{item.name}</h1>
+        <p className="text-lg text-gray-600 mb-6">{item.description}</p>
 
-      <div className="mb-8">
-        <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+        <div>
+          <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
 
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-xl font-bold mb-3">{activeTab}</h3>
-          <p className="text-gray-700 whitespace-pre-line">
-            {item.content[activeTab] || "Content coming soon..."}
-          </p>
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <p className="text-gray-700 whitespace-pre-line">
+              {item.content[activeTab] || "Content coming soon..."}
+            </p>
+          </div>
         </div>
       </div>
     </div>

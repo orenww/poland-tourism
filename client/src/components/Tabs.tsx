@@ -1,7 +1,21 @@
 import { useTranslation } from "react-i18next";
+import {
+  MapPin,
+  Compass,
+  Route,
+  Info,
+  UtensilsCrossed,
+  Hotel,
+  Clock,
+  Navigation,
+  Lightbulb,
+  MapIcon,
+  DollarSign,
+  Calendar,
+} from "lucide-react";
 
 interface TabsProps {
-  tabs: string[]; // Accept tabs as prop instead of hardcodin
+  tabs: string[];
   activeTab: string;
   onTabChange: (tab: string) => void;
 }
@@ -10,7 +24,6 @@ function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
   const { t } = useTranslation();
 
   const getTranslatedTabName = (tab: string) => {
-    // Map English tab keys to translation keys
     const tabMap: { [key: string]: string } = {
       // Home page tabs
       Locations: t("home.tabs.locations"),
@@ -33,21 +46,45 @@ function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
     return tabMap[tab] || tab;
   };
 
+  const getTabIcon = (tab: string) => {
+    const iconMap: { [key: string]: JSX.Element } = {
+      // Home page tabs
+      Locations: <MapPin size={18} />,
+      Attractions: <Compass size={18} />,
+      Routes: <Route size={18} />,
+      // Detail page tabs
+      Overview: <Info size={18} />,
+      Restaurants: <UtensilsCrossed size={18} />,
+      Hotels: <Hotel size={18} />,
+      Practical_Info: <Info size={18} />,
+      Hours_Prices: <Clock size={18} />,
+      How_To_Get_There: <Navigation size={18} />,
+      Tips: <Lightbulb size={18} />,
+      Itinerary: <Calendar size={18} />,
+      Map: <MapIcon size={18} />,
+      Budget: <DollarSign size={18} />,
+    };
+    return iconMap[tab];
+  };
+
   return (
-    <div className="flex border-b border-gray-300 mb-8">
-      {tabs.map((tab) => (
-        <button
-          key={tab}
-          onClick={() => onTabChange(tab)}
-          className={`px-6 py-3 font-semibold transition-colors ${
-            activeTab === tab
-              ? "border-b-2 border-blue-600 text-blue-600"
-              : "text-gray-600 hover:text-blue-600"
-          }`}
-        >
-          {getTranslatedTabName(tab)}
-        </button>
-      ))}
+    <div className="mb-8">
+      <div className="flex gap-1 border-b-2 border-gray-200">
+        {tabs.map((tab) => (
+          <button
+            key={tab}
+            onClick={() => onTabChange(tab)}
+            className={`px-6 py-3 font-semibold transition-all duration-200 border-b-2 flex items-center gap-2 ${
+              activeTab === tab
+                ? "border-blue-600 text-blue-600"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+            }`}
+          >
+            {getTabIcon(tab)}
+            {getTranslatedTabName(tab)}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
