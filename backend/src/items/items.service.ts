@@ -7,6 +7,8 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class ItemsService {
   constructor(private prisma: PrismaService) {}
 
+
+
   create(createItemDto: CreateItemDto) {
     return this.prisma.item.create({
       data: createItemDto,
