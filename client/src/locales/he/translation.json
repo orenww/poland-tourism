@@ -18,11 +18,15 @@
   "detail": {
     "backToHome": "חזרה לדף הבית",
     "notFound": "הפריט לא נמצא",
+    "noContentYet": "תוכן בקרוב...",
+    "noItemsYet": "אין {{items}} זמינים עדיין.",
+    "visitWebsite": "בקר באתר",
     "tabs": {
       "Overview": "סקירה",
       "Restaurants": "מסעדות",
       "Hotels": "מלונות",
       "Attractions": "אטרקציות",
+      "Shopping": "קניות",
       "Practical_Info": "מידע שימושי",
       "Hours_Prices": "שעות ומחירים",
       "How_To_Get_There": "איך להגיע",
@@ -30,8 +34,41 @@
       "Itinerary": "מסלול",
       "Map": "מפה",
       "Budget": "תקציב",
-      "discounts": "הנחות"
+      "Discounts": "הנחות"
     }
+  },
+  "common": {
+    "loading": "טוען...",
+    "saving": "שומר...",
+    "name": "שם",
+    "description": "תיאור",
+    "category": "קטגוריה",
+    "images": "תמונות",
+    "mainImages": "תמונות ראשיות",
+    "address": "כתובת",
+    "website": "אתר אינטרנט",
+    "priceRange": "טווח מחירים",
+    "hours": "שעות",
+    "ticketPrice": "מחיר כניסה",
+    "type": "סוג",
+    "text": "טקסט",
+    "cancel": "ביטול",
+    "create": "צור",
+    "update": "עדכן",
+    "edit": "ערוך",
+    "delete": "מחק",
+    "add": "הוסף",
+    "remove": "הסר",
+    "addImage": "הוסף תמונה",
+    "backToItem": "חזרה לפריט",
+    "admin": "ניהול",
+    "required": "*",
+    "imageUrl": "כתובת תמונה",
+    "selectCategory": "בחר...",
+    "budget": "תקציבי",
+    "moderate": "בינוני",
+    "expensive": "יקר",
+    "luxury": "יוקרתי"
   },
   "admin": {
     "login": {
@@ -41,7 +78,9 @@
       "usernamePlaceholder": "הזן שם משתמש",
       "passwordPlaceholder": "הזן סיסמה",
       "loginButton": "התחבר",
-      "error": "אנא הזן שם משתמש וסיסמה",
+      "loggingIn": "מתחבר...",
+      "error": "הכניסה נכשלה. אנא נסה שוב.",
+      "invalidCredentials": "שם משתמש או סיסמה שגויים",
       "mockNote": "כניסה דמה - כל שם משתמש/סיסמה עובדים כרגע"
     },
     "dashboard": {
@@ -50,7 +89,58 @@
       "allItems": "כל הפריטים",
       "addNew": "הוסף פריט חדש",
       "edit": "ערוך",
-      "delete": "מחק"
+      "delete": "מחק",
+      "deleteConfirm": "האם אתה בטוח שברצונך למחוק את \"{{name}}\"?",
+      "deleteSuccess": "הפריט נמחק בהצלחה!",
+      "deleteFailed": "מחיקת הפריט נכשלה",
+      "loadFailed": "טעינת הפריטים נכשלה"
+    },
+    "itemForm": {
+      "titleEdit": "ערוך פריט",
+      "titleNew": "הוסף פריט חדש",
+      "contentSections": "קטעי תוכן",
+      "manageStructured": "נהל תוכן מובנה",
+      "manageHotels": "נהל מלונות",
+      "manageRestaurants": "נהל מסעדות",
+      "manageAttractions": "נהל אטרקציות",
+      "manageShopping": "נהל קניות",
+      "selectCategory": "אנא בחר קטגוריה",
+      "confirmCreate": "האם אתה בטוח שברצונך ליצור פריט זה?",
+      "confirmUpdate": "האם אתה בטוח שברצונך לעדכן פריט זה?",
+      "createSuccess": "הפריט נוצר בהצלחה!",
+      "updateSuccess": "הפריט עודכן בהצלחה!",
+      "saveFailed": "שמירת הפריט נכשלה: {{error}}",
+      "loadFailed": "טעינת הנתונים נכשלה",
+      "enterText": "הזן טקסט עבור {{field}}..."
+    },
+    "subItems": {
+      "management": {
+        "title": "נהל {{sectionType}} עבור {{itemName}}",
+        "addButton": "הוסף {{sectionType}}",
+        "noItems": "אין {{sectionType}} עדיין.",
+        "deleteConfirm": "האם אתה בטוח שברצונך למחוק את \"{{name}}\"?",
+        "deleteSuccess": "נמחק בהצלחה!",
+        "deleteFailed": "המחיקה נכשלה",
+        "itemNotFound": "הפריט לא נמצא"
+      },
+      "form": {
+        "titleEdit": "ערוך {{sectionType}}",
+        "titleNew": "הוסף {{sectionType}}",
+        "confirmCreate": "האם אתה בטוח שברצונך ליצור {{sectionType}} זה?",
+        "confirmUpdate": "האם אתה בטוח שברצונך לעדכן {{sectionType}} זה?",
+        "createSuccess": "נוצר בהצלחה!",
+        "updateSuccess": "עודכן בהצלחה!",
+        "saveFailed": "השמירה נכשלה: {{error}}",
+        "loadFailed": "טעינת הנתונים נכשלה",
+        "hoursPlaceholder": "לדוגמה, 9:00 - 17:00",
+        "ticketPricePlaceholder": "לדוגמה, 50 זלוטי",
+        "types": {
+          "mall": "קניון",
+          "market": "שוק",
+          "shoppingStreet": "רחוב מסחרי",
+          "boutique": "בוטיק"
+        }
+      }
     }
   }
 }

@@ -18,11 +18,15 @@
   "detail": {
     "backToHome": "Back to Home",
     "notFound": "Item not found",
+    "noContentYet": "Content coming soon...",
+    "noItemsYet": "No {{items}} available yet.",
+    "visitWebsite": "Visit Website",
     "tabs": {
       "Overview": "Overview",
       "Restaurants": "Restaurants",
       "Hotels": "Hotels",
       "Attractions": "Attractions",
+      "Shopping": "Shopping",
       "Practical_Info": "Practical Info",
       "Hours_Prices": "Hours & Prices",
       "How_To_Get_There": "How to Get There",
@@ -33,6 +37,39 @@
       "Discounts": "Discounts"
     }
   },
+  "common": {
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "name": "Name",
+    "description": "Description",
+    "category": "Category",
+    "images": "Images",
+    "mainImages": "Main Images",
+    "address": "Address",
+    "website": "Website",
+    "priceRange": "Price Range",
+    "hours": "Hours",
+    "ticketPrice": "Ticket Price",
+    "type": "Type",
+    "text": "Text",
+    "cancel": "Cancel",
+    "create": "Create",
+    "update": "Update",
+    "edit": "Edit",
+    "delete": "Delete",
+    "add": "Add",
+    "remove": "Remove",
+    "addImage": "Add Image",
+    "backToItem": "Back to Item",
+    "admin": "Admin",
+    "required": "*",
+    "imageUrl": "Image URL",
+    "selectCategory": "Select...",
+    "budget": "Budget",
+    "moderate": "Moderate",
+    "expensive": "Expensive",
+    "luxury": "Luxury"
+  },
   "admin": {
     "login": {
       "title": "Admin Login",
@@ -41,7 +78,9 @@
       "usernamePlaceholder": "Enter username",
       "passwordPlaceholder": "Enter password",
       "loginButton": "Login",
-      "error": "Please enter username and password",
+      "loggingIn": "Logging in...",
+      "error": "Login failed. Please try again.",
+      "invalidCredentials": "Invalid username or password",
       "mockNote": "Mock login - any username/password works for now"
     },
     "dashboard": {
@@ -50,7 +89,58 @@
       "allItems": "All Items",
       "addNew": "Add New Item",
       "edit": "Edit",
-      "delete": "Delete"
+      "delete": "Delete",
+      "deleteConfirm": "Are you sure you want to delete \"{{name}}\"?",
+      "deleteSuccess": "Item deleted successfully!",
+      "deleteFailed": "Failed to delete item",
+      "loadFailed": "Failed to load items"
+    },
+    "itemForm": {
+      "titleEdit": "Edit Item",
+      "titleNew": "Add New Item",
+      "contentSections": "Content Sections",
+      "manageStructured": "Manage Structured Content",
+      "manageHotels": "Manage Hotels",
+      "manageRestaurants": "Manage Restaurants",
+      "manageAttractions": "Manage Attractions",
+      "manageShopping": "Manage Shopping",
+      "selectCategory": "Please select a category",
+      "confirmCreate": "Are you sure you want to create this item?",
+      "confirmUpdate": "Are you sure you want to update this item?",
+      "createSuccess": "Item created successfully!",
+      "updateSuccess": "Item updated successfully!",
+      "saveFailed": "Failed to save item: {{error}}",
+      "loadFailed": "Failed to load data",
+      "enterText": "Enter {{field}} text..."
+    },
+    "subItems": {
+      "management": {
+        "title": "Manage {{sectionType}} for {{itemName}}",
+        "addButton": "Add {{sectionType}}",
+        "noItems": "No {{sectionType}} added yet.",
+        "deleteConfirm": "Are you sure you want to delete \"{{name}}\"?",
+        "deleteSuccess": "Deleted successfully!",
+        "deleteFailed": "Failed to delete",
+        "itemNotFound": "Item not found"
+      },
+      "form": {
+        "titleEdit": "Edit {{sectionType}}",
+        "titleNew": "Add {{sectionType}}",
+        "confirmCreate": "Are you sure you want to create this {{sectionType}}?",
+        "confirmUpdate": "Are you sure you want to update this {{sectionType}}?",
+        "createSuccess": "Created successfully!",
+        "updateSuccess": "Updated successfully!",
+        "saveFailed": "Failed to save: {{error}}",
+        "loadFailed": "Failed to load data",
+        "hoursPlaceholder": "e.g., 9:00 AM - 5:00 PM",
+        "ticketPricePlaceholder": "e.g., 50 PLN",
+        "types": {
+          "mall": "Mall",
+          "market": "Market",
+          "shoppingStreet": "Shopping Street",
+          "boutique": "Boutique"
+        }
+      }
     }
   }
 }

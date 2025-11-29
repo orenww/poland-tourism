@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { itemsService, Item } from "../services/items.service";
@@ -12,7 +12,6 @@ import {
 
 function DetailPage() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { t, i18n } = useTranslation();
 
   const [item, setItem] = useState<Item | null>(null);
@@ -93,7 +92,7 @@ function DetailPage() {
         className="flex items-center justify-center min-h-screen"
         dir={i18n.language === "he" ? "rtl" : "ltr"}
       >
-        <p className="text-gray-600">Loading...</p>
+        <p className="text-gray-600">{t("common.loading")}</p>
       </div>
     );
   }
@@ -223,7 +222,7 @@ function DetailPage() {
                               rel="noopener noreferrer"
                               className="text-blue-600 hover:underline text-sm block mt-2"
                             >
-                              Visit Website →
+                              {t("detail.visitWebsite")} →
                             </a>
                           )}
                         </div>
@@ -231,7 +230,7 @@ function DetailPage() {
                   </div>
                 ) : (
                   <p className="text-gray-500">
-                    No {activeTab.toLowerCase()} available yet.
+                    {t("detail.noItemsYet", { items: activeTab.toLowerCase() })}
                   </p>
                 )}
               </div>
@@ -263,7 +262,7 @@ function DetailPage() {
                 {!item.textContent?.[activeTab]?.text &&
                   (!item.textContent?.[activeTab]?.images ||
                     item.textContent[activeTab].images.length === 0) && (
-                    <p className="text-gray-500">Content coming soon...</p>
+                    <p className="text-gray-500">{t("detail.noContentYet")}</p>
                   )}
               </div>
             )}

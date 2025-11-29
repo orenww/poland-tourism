@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { itemsService, Item } from "../../services/items.service";
+import { itemsService } from "../../services/items.service";
 import { categoriesService, Category } from "../../services/categories.service";
 import { getTextContentFieldsForCategory } from "../../utils/categoryUtils";
 
@@ -108,13 +108,13 @@ function ItemForm() {
     e.preventDefault();
 
     if (!categoryId) {
-      alert("Please select a category");
+      alert(t("admin.itemForm.selectCategory"));
       return;
     }
 
     const message = isEditMode
-      ? "Are you sure you want to update this item?"
-      : "Are you sure you want to create this item?";
+      ? t("admin.itemForm.confirmUpdate")
+      : t("admin.itemForm.confirmCreate");
 
     const confirmed = window.confirm(message);
     if (!confirmed) return;
@@ -132,17 +132,17 @@ function ItemForm() {
 
       if (isEditMode && id) {
         await itemsService.update(Number(id), itemData);
-        alert("Item updated successfully!");
+        alert(t("admin.itemForm.updateSuccess"));
       } else {
         await itemsService.create(itemData);
-        alert("Item created successfully!");
+        alert(t("admin.itemForm.createSuccess"));
       }
 
       navigate("/admin");
     } catch (err: any) {
       console.error("Error saving item:", err);
       alert(
-        "Failed to save item: " + (err.response?.data?.message || err.message)
+        t("admin.itemForm.saveFailed", { error: err.response?.data?.message || err.message })
       );
     } finally {
       setSaving(false);
@@ -156,7 +156,7 @@ function ItemForm() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p className="text-gray-600">Loading...</p>
+        <p className="text-gray-600">{t("common.loading")}</p>
       </div>
     );
   }
@@ -164,7 +164,7 @@ function ItemForm() {
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p className="text-red-600">{error}</p>
+        <p className="text-red-600">{t("admin.itemForm.loadFailed")}</p>
       </div>
     );
   }
@@ -176,7 +176,7 @@ function ItemForm() {
     >
       <div className="container mx-auto px-4 max-w-3xl">
         <h1 className="text-3xl font-bold text-gray-800 mb-6">
-          {isEditMode ? "Edit Item" : "Add New Item"}
+          {isEditMode ? t("admin.itemForm.titleEdit") : t("admin.itemForm.titleNew")}
         </h1>
 
         <form
@@ -186,7 +186,7 @@ function ItemForm() {
           {/* Name */}
           <div>
             <label className="block text-gray-700 font-semibold mb-2">
-              Name *
+              {t("common.name")} {t("common.required")}
             </label>
             <input
               type="text"
@@ -202,7 +202,7 @@ function ItemForm() {
           {/* Description */}
           <div>
             <label className="block text-gray-700 font-semibold mb-2">
-              Description *
+              {t("common.description")} {t("common.required")}
             </label>
             <textarea
               value={description}
@@ -218,7 +218,7 @@ function ItemForm() {
           {/* Category */}
           <div>
             <label className="block text-gray-700 font-semibold mb-2">
-              Category *
+              {t("common.category")} {t("common.required")}
             </label>
             <select
               value={categoryId || ""}
@@ -237,7 +237,7 @@ function ItemForm() {
           {/* Main Images */}
           <div>
             <label className="block text-gray-700 font-semibold mb-2">
-              Main Images
+              {t("common.mainImages")}
             </label>
 
             {/* Display existing images */}
@@ -255,7 +255,7 @@ function ItemForm() {
                       }}
                       className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       disabled={saving}
-                      placeholder="Image URL"
+                      placeholder={t("common.imageUrl")}
                     />
                     <button
                       type="button"
@@ -265,7 +265,7 @@ function ItemForm() {
                       disabled={saving}
                       className="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 disabled:bg-gray-300"
                     >
-                      Remove
+                      {t("common.remove")}
                     </button>
                   </div>
                 ))}
@@ -279,13 +279,13 @@ function ItemForm() {
               disabled={saving}
               className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-300"
             >
-              + Add Image
+              + {t("common.addImage")}
             </button>
           </div>
           {/* Content fields based on category */}
           <div className="border-t pt-6">
             <h2 className="text-xl font-bold text-gray-800 mb-4">
-              Content Sections
+              {t("admin.itemForm.contentSections")}
             </h2>
 
             {contentFields.map((field) => {
@@ -305,7 +305,7 @@ function ItemForm() {
                   {/* Text content */}
                   <div className="mb-3">
                     <label className="block text-gray-700 text-sm mb-2">
-                      Text
+                      {t("common.text")}
                     </label>
                     <textarea
                       value={fieldContent.text || ""}
@@ -314,7 +314,7 @@ function ItemForm() {
                       }
                       rows={4}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder={`Enter ${field} text...`}
+                      placeholder={t("admin.itemForm.enterText", { field })}
                       disabled={saving}
                       dir={i18n.language === "he" ? "rtl" : "ltr"}
                     />
@@ -323,7 +323,7 @@ function ItemForm() {
                   {/* Images for this section */}
                   <div>
                     <label className="block text-gray-700 text-sm mb-2">
-                      Images
+                      {t("common.images")}
                     </label>
 
                     {fieldImages.length > 0 && (
@@ -340,7 +340,7 @@ function ItemForm() {
                               }}
                               className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                               disabled={saving}
-                              placeholder="Image URL"
+                              placeholder={t("common.imageUrl")}
                             />
                             <button
                               type="button"
@@ -353,7 +353,7 @@ function ItemForm() {
                               disabled={saving}
                               className="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 disabled:bg-gray-300 text-sm"
                             >
-                              Remove
+                              {t("common.remove")}
                             </button>
                           </div>
                         ))}
@@ -368,7 +368,7 @@ function ItemForm() {
                       disabled={saving}
                       className="px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 text-sm"
                     >
-                      + Add Image
+                      + {t("common.addImage")}
                     </button>
                   </div>
                 </div>
@@ -384,14 +384,14 @@ function ItemForm() {
               disabled={saving}
               className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors disabled:bg-gray-300"
             >
-              Cancel
+              {t("common.cancel")}
             </button>
             <button
               type="submit"
               disabled={saving}
               className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-blue-300"
             >
-              {saving ? "Saving..." : isEditMode ? "Update" : "Create"}
+              {saving ? t("common.saving") : isEditMode ? t("common.update") : t("common.create")}
             </button>
           </div>
         </form>
@@ -399,7 +399,7 @@ function ItemForm() {
         {isEditMode && selectedCategory?.key === "locations" && (
           <div className="bg-white rounded-lg shadow-md p-6 mt-6">
             <h2 className="text-xl font-bold text-gray-800 mb-4">
-              Manage Structured Content
+              {t("admin.itemForm.manageStructured")}
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <button
@@ -407,7 +407,7 @@ function ItemForm() {
                 onClick={() => navigate(`/admin/item/${id}/subitems/hotels`)}
                 className="px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
               >
-                🏨 Manage Hotels
+                🏨 {t("admin.itemForm.manageHotels")}
               </button>
               <button
                 type="button"
@@ -416,7 +416,7 @@ function ItemForm() {
                 }
                 className="px-4 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
               >
-                🍴 Manage Restaurants
+                🍴 {t("admin.itemForm.manageRestaurants")}
               </button>
               <button
                 type="button"
@@ -425,14 +425,14 @@ function ItemForm() {
                 }
                 className="px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
               >
-                🎭 Manage Attractions
+                🎭 {t("admin.itemForm.manageAttractions")}
               </button>
               <button
                 type="button"
                 onClick={() => navigate(`/admin/item/${id}/subitems/shopping`)}
                 className="px-4 py-3 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
               >
-                🛍️ Manage Shopping
+                🛍️ {t("admin.itemForm.manageShopping")}
               </button>
             </div>
           </div>

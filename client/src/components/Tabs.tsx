@@ -12,6 +12,8 @@ import {
   MapIcon,
   DollarSign,
   Calendar,
+  ShoppingBag,
+  Tag,
 } from "lucide-react";
 import { JSX } from "react";
 
@@ -26,14 +28,21 @@ function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
 
   const getTranslatedTabName = (tab: string) => {
     const tabMap: { [key: string]: string } = {
-      // Home page tabs
+      // Home page tabs (lowercase from API)
+      locations: t("home.tabs.locations"),
+      attractions: t("home.tabs.attractions"),
+      routes: t("home.tabs.routes"),
+      discounts: t("home.tabs.discounts"),
+      // Home page tabs (capitalized)
       Locations: t("home.tabs.locations"),
       Attractions: t("home.tabs.attractions"),
       Routes: t("home.tabs.routes"),
+      Discounts: t("home.tabs.discounts"),
       // Detail page tabs - Locations
       Overview: t("detail.tabs.Overview"),
       Restaurants: t("detail.tabs.Restaurants"),
       Hotels: t("detail.tabs.Hotels"),
+      Shopping: t("detail.tabs.Shopping"),
       Practical_Info: t("detail.tabs.Practical_Info"),
       // Detail page tabs - Attractions
       Hours_Prices: t("detail.tabs.Hours_Prices"),
@@ -49,14 +58,21 @@ function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
 
   const getTabIcon = (tab: string) => {
     const iconMap: { [key: string]: JSX.Element } = {
-      // Home page tabs
+      // Home page tabs (lowercase)
+      locations: <MapPin size={18} />,
+      attractions: <Compass size={18} />,
+      routes: <Route size={18} />,
+      discounts: <Tag size={18} />,
+      // Home page tabs (capitalized)
       Locations: <MapPin size={18} />,
       Attractions: <Compass size={18} />,
       Routes: <Route size={18} />,
+      Discounts: <Tag size={18} />,
       // Detail page tabs
       Overview: <Info size={18} />,
       Restaurants: <UtensilsCrossed size={18} />,
       Hotels: <Hotel size={18} />,
+      Shopping: <ShoppingBag size={18} />,
       Practical_Info: <Info size={18} />,
       Hours_Prices: <Clock size={18} />,
       How_To_Get_There: <Navigation size={18} />,

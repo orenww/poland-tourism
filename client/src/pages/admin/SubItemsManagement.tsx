@@ -48,7 +48,7 @@ function SubItemsManagement() {
 
   async function handleDelete(subItemId: number, subItemName: string) {
     const confirmed = window.confirm(
-      `Are you sure you want to delete "${subItemName}"?`
+      t("admin.subItems.management.deleteConfirm", { name: subItemName })
     );
 
     if (!confirmed) return;
@@ -56,17 +56,17 @@ function SubItemsManagement() {
     try {
       await subItemsService.delete(subItemId);
       setSubItems(subItems.filter((si) => si.id !== subItemId));
-      alert("Deleted successfully!");
+      alert(t("admin.subItems.management.deleteSuccess"));
     } catch (err) {
       console.error("Error deleting subitem:", err);
-      alert("Failed to delete");
+      alert(t("admin.subItems.management.deleteFailed"));
     }
   }
 
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p className="text-gray-600">Loading...</p>
+        <p className="text-gray-600">{t("common.loading")}</p>
       </div>
     );
   }
@@ -74,7 +74,9 @@ function SubItemsManagement() {
   if (error || !item) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <p className="text-red-600">{error || "Item not found"}</p>
+        <p className="text-red-600">
+          {t("admin.subItems.management.itemNotFound")}
+        </p>
       </div>
     );
   }
@@ -90,7 +92,7 @@ function SubItemsManagement() {
           onClick={() => navigate("/admin")}
           className="hover:text-blue-600"
         >
-          Admin
+          {t("common.admin")}
         </button>
         {" > "}
         <button
@@ -106,13 +108,16 @@ function SubItemsManagement() {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-gray-800">
-          Manage {sectionType} for {item.name}
+          {t("admin.subItems.management.title", {
+            sectionType,
+            itemName: item.name,
+          })}
         </h1>
         <button
           onClick={() => navigate(`/admin/item/edit/${itemId}`)}
           className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
         >
-          ← Back to Item
+          ← {t("common.backToItem")}
         </button>
       </div>
 
@@ -124,13 +129,18 @@ function SubItemsManagement() {
           }
           className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700"
         >
-          + Add {sectionType?.slice(0, -1)}
+          +{" "}
+          {t("admin.subItems.management.addButton", {
+            sectionType: sectionType?.slice(0, -1),
+          })}
         </button>
       </div>
 
       {/* SubItems list */}
       {subItems.length === 0 ? (
-        <p className="text-gray-500">No {sectionType} added yet.</p>
+        <p className="text-gray-500">
+          {t("admin.subItems.management.noItems", { sectionType })}
+        </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {subItems.map((subItem) => (
@@ -163,13 +173,13 @@ function SubItemsManagement() {
                   }
                   className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                 >
-                  Edit
+                  {t("common.edit")}
                 </button>
                 <button
                   onClick={() => handleDelete(subItem.id, subItem.name)}
                   className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
                 >
-                  Delete
+                  {t("common.delete")}
                 </button>
               </div>
             </div>

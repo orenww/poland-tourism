@@ -42,7 +42,7 @@ function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
   async function handleDelete(itemId: number, itemName: string) {
     const confirmed = window.confirm(
-      `Are you sure you want to delete "${itemName}"?`
+      t("admin.dashboard.deleteConfirm", { name: itemName })
     );
 
     if (!confirmed) return;
@@ -51,10 +51,10 @@ function AdminDashboard({ onLogout }: AdminDashboardProps) {
       await itemsService.delete(itemId);
       // Remove from local state
       setItems(items.filter((item) => item.id !== itemId));
-      alert("Item deleted successfully!");
+      alert(t("admin.dashboard.deleteSuccess"));
     } catch (err) {
       console.error("Error deleting item:", err);
-      alert("Failed to delete item");
+      alert(t("admin.dashboard.deleteFailed"));
     }
   }
 
@@ -65,7 +65,7 @@ function AdminDashboard({ onLogout }: AdminDashboardProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p className="text-gray-600">Loading...</p>
+        <p className="text-gray-600">{t("common.loading")}</p>
       </div>
     );
   }
@@ -73,7 +73,7 @@ function AdminDashboard({ onLogout }: AdminDashboardProps) {
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p className="text-red-600">{error}</p>
+        <p className="text-red-600">{t("admin.dashboard.loadFailed")}</p>
       </div>
     );
   }

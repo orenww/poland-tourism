@@ -97,7 +97,7 @@ function HomePage({ searchQuery }: HomePageProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p className="text-gray-600">{t("common.loading") || "Loading..."}</p>
+        <p className="text-gray-600">{t("common.loading")}</p>
       </div>
     );
   }
