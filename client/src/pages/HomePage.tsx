@@ -3,7 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Tabs from "../components/Tabs";
 import ItemCard from "../components/ItemCard";
-import { items } from "../data/item";
+import { categoriesService, Category } from "../services/categories.service";
+import { itemsService, Item } from "../services/items.service";
 
 interface HomePageProps {
   searchQuery: string;
@@ -14,12 +15,44 @@ function HomePage({ searchQuery }: HomePageProps) {
   const location = useLocation();
   const { t, i18n } = useTranslation();
 
-  // Get unique categories dynamically from items
-  const categories = [...new Set(items.map((item) => item.category))];
-  // Add "Discounts" as special aggregated tab
-  const tabs = [...categories, "Discounts"];
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [items, setItems] = useState<Item[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const [activeTab, setActiveTab] = useState(tabs[0]);
+  // Create tabs from categories + "Discounts"
+  const tabs = [...categories.map((cat) => cat.key), "Discounts"];
+  const [activeTab, setActiveTab] = useState("");
+
+  // Fetch categories and items on mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const [categoriesData, itemsData] = await Promise.all([
+          categoriesService.getAll(),
+          itemsService.getAll(),
+        ]);
+
+        setCategories(categoriesData);
+        setItems(itemsData);
+
+        // Set first tab as active
+        if (categoriesData.length > 0 && !activeTab) {
+          setActiveTab(categoriesData[0].key);
+        }
+
+        setError(null);
+      } catch (err) {
+        setError("Failed to load data");
+        console.error("Error fetching data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (location.state?.activeTab) {
@@ -42,17 +75,41 @@ function HomePage({ searchQuery }: HomePageProps) {
 
     // If "Discounts" tab is active, show items that have discounts
     if (activeTab === "Discounts") {
-      return item.content.Discounts && item.content.Discounts.trim() !== "";
+      return (
+        item.textContent?.Discounts &&
+        item.textContent?.Discounts.text.trim() !== ""
+      );
     }
 
-    // Otherwise filter by category
-    return item.category === activeTab;
+    // Otherwise filter by category key
+    const category = categories.find((cat) => cat.key === activeTab);
+    return category && item.categoryId === category.id;
   });
 
-  const handleCardClick = (id: string, category: string) => {
-    const categoryPath = category.toLowerCase();
-    navigate(`/${categoryPath}/${id}`);
+  const handleCardClick = (id: number, categoryId: number) => {
+    const category = categories.find((cat) => cat.id === categoryId);
+    if (category) {
+      navigate(`/${category.key}/${id}`);
+    }
   };
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-gray-600">{t("common.loading") || "Loading..."}</p>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-red-600">{error}</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -94,14 +151,20 @@ function HomePage({ searchQuery }: HomePageProps) {
             {filteredItems.map((item) => (
               <div
                 key={item.id}
-                onClick={() => handleCardClick(item.id, item.category)}
+                onClick={() => handleCardClick(item.id, item.categoryId)}
                 className="cursor-pointer"
               >
                 <ItemCard
                   name={item.name}
                   description={item.description}
-                  image={item.image}
-                  category={item.category}
+                  image={
+                    item.images?.[0] ||
+                    "https://placehold.co/400x200/gray/white?text=No+Image"
+                  }
+                  category={
+                    categories.find((cat) => cat.id === item.categoryId)?.key ||
+                    ""
+                  }
                   showCategory={!!searchQuery}
                 />
               </div>

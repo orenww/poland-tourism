@@ -6,6 +6,8 @@ import DetailPage from "./pages/DetailPage";
 import { useState } from "react";
 import AdminPage from "./pages/admin/AdminPage";
 import ItemForm from "./pages/admin/ItemForm";
+import SubItemsManagement from "./pages/admin/SubItemsManagement";
+import SubItemForm from "./pages/admin/SubItemForm";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -30,6 +32,18 @@ function App() {
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/admin/item/new" element={<ItemForm />} />
         <Route path="/admin/item/edit/:id" element={<ItemForm />} />
+        <Route
+          path="/admin/item/:itemId/subitems/:sectionType"
+          element={<SubItemsManagement />}
+        />
+        <Route
+          path="/admin/item/:itemId/subitems/:sectionType/new"
+          element={<SubItemForm />}
+        />
+        <Route
+          path="/admin/item/:itemId/subitems/:sectionType/edit/:subItemId"
+          element={<SubItemForm />}
+        />
       </Routes>
     </div>
   );

@@ -7,19 +7,21 @@ import { AuthModule } from './auth/auth.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { CategoriesModule } from './categories/categories.module';
+import { SubitemsModule } from './subitems/subitems.module';
 
 @Module({
   imports: [
     ThrottlerModule.forRoot([
       {
         ttl: 60000, // 60 seconds
-        limit: 10, // 10 requests per 60 seconds
+        limit: 60, // 10 requests per 60 seconds
       },
     ]),
     PrismaModule,
     ItemsModule,
     AuthModule,
     CategoriesModule,
+    SubitemsModule,
   ],
   controllers: [AppController],
   providers: [

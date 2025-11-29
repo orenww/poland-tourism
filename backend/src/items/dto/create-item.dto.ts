@@ -1,23 +1,20 @@
-import { IsString, IsNotEmpty, IsObject, IsOptional, IsInt } from 'class-validator';
+import { IsString, IsInt, IsOptional, IsArray } from 'class-validator';
 
 export class CreateItemDto {
   @IsString()
-  @IsNotEmpty()
   name: string;
 
   @IsString()
-  @IsNotEmpty()
   description: string;
 
   @IsInt()
-  @IsNotEmpty()
   categoryId: number;
 
-  @IsString()
   @IsOptional()
-  image?: string;
+  @IsArray()
+  @IsString({ each: true })
+  images?: string[];
 
-  @IsObject()
-  @IsNotEmpty()
-  content: any;
+  @IsOptional()
+  textContent?: Record<string, any>; // Changed from 'content' to 'textContent'
 }

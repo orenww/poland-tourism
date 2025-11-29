@@ -7,20 +7,32 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class ItemsService {
   constructor(private prisma: PrismaService) {}
 
-
-
   create(createItemDto: CreateItemDto) {
     return this.prisma.item.create({
       data: createItemDto,
+      include: {
+        category: true,
+        subItems: true,
+      },
     });
   }
 
   findAll() {
-    return this.prisma.item.findMany();
+    return this.prisma.item.findMany({
+      include: {
+        category: true,
+        subItems: true,
+      },
+    });
   }
+
   findOne(id: number) {
     return this.prisma.item.findUnique({
       where: { id },
+      include: {
+        category: true,
+        subItems: true,
+      },
     });
   }
 
@@ -28,6 +40,10 @@ export class ItemsService {
     return this.prisma.item.update({
       where: { id },
       data: updateItemDto,
+      include: {
+        category: true,
+        subItems: true,
+      },
     });
   }
 

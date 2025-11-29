@@ -1,6 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { items } from "../../data/item";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { itemsService, Item } from "../../services/items.service";
+import { categoriesService, Category } from "../../services/categories.service";
 
 interface AdminDashboardProps {
   onLogout: () => void;
@@ -10,17 +12,71 @@ function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
-  const handleDelete = (itemId: string, itemName: string) => {
+  const [items, setItems] = useState<Item[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch items and categories on mount
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setLoading(true);
+        const [itemsData, categoriesData] = await Promise.all([
+          itemsService.getAll(),
+          categoriesService.getAll(),
+        ]);
+        setItems(itemsData);
+        setCategories(categoriesData);
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching data:", err);
+        setError("Failed to load items");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  async function handleDelete(itemId: number, itemName: string) {
     const confirmed = window.confirm(
       `Are you sure you want to delete "${itemName}"?`
     );
 
-    if (confirmed) {
-      console.log("Deleting item:", itemId);
-      alert("Item deleted! (Mock - not actually deleted)");
-      // When backend is ready: call API to delete
+    if (!confirmed) return;
+
+    try {
+      await itemsService.delete(itemId);
+      // Remove from local state
+      setItems(items.filter((item) => item.id !== itemId));
+      alert("Item deleted successfully!");
+    } catch (err) {
+      console.error("Error deleting item:", err);
+      alert("Failed to delete item");
     }
-  };
+  }
+
+  function getCategoryName(categoryId: number): string {
+    return categories.find((cat) => cat.id === categoryId)?.key || "";
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-gray-600">Loading...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-red-600">{error}</p>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -60,13 +116,18 @@ function AdminDashboard({ onLogout }: AdminDashboardProps) {
             >
               <div className="flex items-center gap-4">
                 <img
-                  src={item.image}
+                  src={
+                    item.images?.[0] ||
+                    "https://placehold.co/64x64/gray/white?text=No+Image"
+                  }
                   alt={item.name}
                   className="w-16 h-16 object-cover rounded"
                 />
                 <div>
                   <h3 className="font-semibold text-gray-800">{item.name}</h3>
-                  <p className="text-sm text-gray-500">{item.category}</p>
+                  <p className="text-sm text-gray-500">
+                    {getCategoryName(item.categoryId)}
+                  </p>
                 </div>
               </div>
 
