@@ -10,6 +10,10 @@ export class CreateItemDto {
   @IsInt()
   categoryId: number;
 
+  @IsArray()
+  @IsOptional()
+  nearLocationIds?: number[]; // ADD THIS
+
   @IsOptional()
   @IsArray()
   @IsString({ each: true })

@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Highlight animation for SubItem cards */
+.highlighted {
+  background-color: #eff6ff !important;
+  border: 2px solid #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
+}

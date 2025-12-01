@@ -15,6 +15,7 @@ export class CategoriesService {
 
   findAll() {
     return this.prisma.category.findMany({
+      orderBy: { order: 'asc' }, // ADD THIS LINE
       include: {
         _count: {
           select: { items: true },

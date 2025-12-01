@@ -32,12 +32,12 @@ function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
       locations: t("home.tabs.locations"),
       attractions: t("home.tabs.attractions"),
       routes: t("home.tabs.routes"),
-      discounts: t("home.tabs.discounts"),
+      benefits: t("home.tabs.benefits"),
       // Home page tabs (capitalized)
       Locations: t("home.tabs.locations"),
       Attractions: t("home.tabs.attractions"),
       Routes: t("home.tabs.routes"),
-      Discounts: t("home.tabs.discounts"),
+      Benefits: t("home.tabs.benefits"),
       // Detail page tabs - Locations
       Overview: t("detail.tabs.Overview"),
       Restaurants: t("detail.tabs.Restaurants"),
@@ -62,12 +62,12 @@ function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
       locations: <MapPin size={18} />,
       attractions: <Compass size={18} />,
       routes: <Route size={18} />,
-      discounts: <Tag size={18} />,
+      benefits: <Tag size={18} />,
       // Home page tabs (capitalized)
       Locations: <MapPin size={18} />,
       Attractions: <Compass size={18} />,
       Routes: <Route size={18} />,
-      Discounts: <Tag size={18} />,
+      Benefits: <Tag size={18} />,
       // Detail page tabs
       Overview: <Info size={18} />,
       Restaurants: <UtensilsCrossed size={18} />,

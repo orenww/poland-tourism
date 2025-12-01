@@ -38,5 +38,9 @@ export class CreateSubItemDto {
   type?: string;
 
   @IsOptional()
+  @IsString()
+  benefit?: string; // ADD THIS LINE
+
+  @IsOptional()
   images?: string[];
 }

@@ -1,19 +1,19 @@
 export function getTextContentFieldsForCategory(category: string): string[] {
   switch (category.toLowerCase()) {
     case "locations":
-      return ["Overview", "Practical_Info", "Discounts"];
+      return ["Overview", "Practical_Info", "Benefits"];
     case "attractions":
       return [
         "Overview",
         "Hours_Prices",
         "How_To_Get_There",
         "Tips",
-        "Discounts",
+        "Benefits",
       ];
     case "routes":
-      return ["Itinerary", "Map", "Budget", "Tips", "Discounts"];
+      return ["Itinerary", "Map", "Budget", "Tips", "Benefits"];
     default:
-      return ["Overview", "Discounts"];
+      return ["Overview", "Benefits"];
   }
 }
 

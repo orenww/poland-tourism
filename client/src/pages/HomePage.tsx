@@ -5,6 +5,7 @@ import Tabs from "../components/Tabs";
 import ItemCard from "../components/ItemCard";
 import { categoriesService, Category } from "../services/categories.service";
 import { itemsService, Item } from "../services/items.service";
+import BenefitsAggregation from "../components/BenefitsAggregation";
 
 interface HomePageProps {
   searchQuery: string;
@@ -20,8 +21,8 @@ function HomePage({ searchQuery }: HomePageProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Create tabs from categories + "Discounts"
-  const tabs = [...categories.map((cat) => cat.key), "Discounts"];
+  // Create tabs from categories + "Benefits"
+  const tabs = [...categories.map((cat) => cat.key), "Benefits"];
   const [activeTab, setActiveTab] = useState("");
 
   // Fetch categories and items on mount
@@ -73,12 +74,18 @@ function HomePage({ searchQuery }: HomePageProps) {
       );
     }
 
-    // If "Discounts" tab is active, show items that have discounts
-    if (activeTab === "Discounts") {
-      return (
-        item.textContent?.Discounts &&
-        item.textContent?.Discounts.text.trim() !== ""
-      );
+    // If "Benefits" tab is active, show items that have benefits
+    if (activeTab === "Benefits") {
+      // Check if item has textContent.Benefits
+      const hasItemBenefit =
+        item.textContent?.Benefits &&
+        item.textContent?.Benefits.text.trim() !== "";
+
+      // Check if item has any SubItems with benefits
+      const hasSubItemBenefits =
+        item.subItems && item.subItems.some((subItem) => subItem.benefit);
+
+      return hasItemBenefit || hasSubItemBenefits;
     }
 
     // Otherwise filter by category key
@@ -146,7 +153,11 @@ function HomePage({ searchQuery }: HomePageProps) {
           <p className="text-gray-500 text-center py-8">
             {t("home.noResults")} "{searchQuery}"
           </p>
+        ) : activeTab === "Benefits" ? (
+          // Special display for Benefits tab - show aggregated benefits
+          <BenefitsAggregation items={filteredItems} />
         ) : (
+          // Normal display for other tabs - show item cards
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn">
             {filteredItems.map((item) => (
               <div

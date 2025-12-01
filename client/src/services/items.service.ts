@@ -1,4 +1,5 @@
 import api from "./api";
+import { Category } from "./categories.service";
 import { SubItem } from "./subitems.service";
 
 export interface Item {
@@ -6,9 +7,13 @@ export interface Item {
   name: string;
   description: string;
   categoryId: number;
+  nearLocationIds: number[];
   images?: string[];
-  textContent: Record<string, any>; // Changed from 'content'
-  subItems?: SubItem[]; // Added
+  textContent: Record<string, any>;
+  category?: Category; // ADD - Related category object
+  subItems?: SubItem[];
+  createdAt: string; // ADD
+  updatedAt: string; // ADD
 }
 
 export interface CreateItemDto {

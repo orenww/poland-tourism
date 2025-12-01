@@ -12,7 +12,7 @@
       "locations": "Locations",
       "attractions": "Attractions",
       "routes": "Routes",
-      "discounts": "Discounts"
+      "benefits": "Benefits"
     }
   },
   "detail": {
@@ -34,7 +34,7 @@
       "Itinerary": "Itinerary",
       "Map": "Map",
       "Budget": "Budget",
-      "Discounts": "Discounts"
+      "Benefits": "Benefits"
     }
   },
   "common": {

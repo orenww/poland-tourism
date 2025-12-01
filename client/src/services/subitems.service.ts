@@ -12,6 +12,7 @@ export interface SubItem {
   hours?: string;
   ticketPrice?: string;
   type?: string;
+  benefit?: string; // ADD THIS LINE
   images: string[];
 }
 

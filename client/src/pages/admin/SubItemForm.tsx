@@ -26,6 +26,7 @@ function SubItemForm() {
   const [ticketPrice, setTicketPrice] = useState("");
   const [type, setType] = useState("");
   const [images, setImages] = useState<string[]>([]);
+  const [benefit, setBenefit] = useState("");
 
   useEffect(() => {
     async function fetchData() {
@@ -50,6 +51,7 @@ function SubItemForm() {
           setTicketPrice(subItemData.ticketPrice || "");
           setType(subItemData.type || "");
           setImages(subItemData.images || []);
+          setBenefit(subItemData.benefit || "");
         }
 
         setError(null);
@@ -90,6 +92,7 @@ function SubItemForm() {
         hours: hours || undefined,
         ticketPrice: ticketPrice || undefined,
         type: type || undefined,
+        benefit: benefit.trim() || undefined, // ADDED THIS LINE
         images: images.length > 0 ? images : undefined,
       };
 
@@ -303,6 +306,22 @@ function SubItemForm() {
               </select>
             </div>
           )}
+
+          {/* Benefit */}
+          <div>
+            <label className="block text-gray-700 font-semibold mb-2">
+              Benefit / Special Offer
+            </label>
+            <textarea
+              value={benefit}
+              onChange={(e) => setBenefit(e.target.value)}
+              rows={2}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="e.g., 15% off for Israeli tourists, Free breakfast on weekends"
+              disabled={saving}
+              dir={i18n.language === "he" ? "rtl" : "ltr"}
+            />
+          </div>
 
           {/* Images */}
           <div>

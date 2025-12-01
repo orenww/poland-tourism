@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { itemsService } from "../../services/items.service";
+import { Item, itemsService } from "../../services/items.service";
 import { categoriesService, Category } from "../../services/categories.service";
 import { getTextContentFieldsForCategory } from "../../utils/categoryUtils";
 
@@ -22,14 +22,29 @@ function ItemForm() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [categoryId, setCategoryId] = useState<number | null>(null);
-  const [images, setImages] = useState<string[]>([]); // Changed from image
+  const [images, setImages] = useState<string[]>([]);
   const [textContent, setTextContent] = useState<Record<string, any>>({});
+  const [nearLocationIds, setNearLocationIds] = useState<number[]>([]);
+
+  const [allLocations, setAllLocations] = useState<Item[]>([]);
 
   // Get content fields for selected category
   const selectedCategory = categories.find((cat) => cat.id === categoryId);
   const contentFields = selectedCategory
     ? getTextContentFieldsForCategory(selectedCategory.key)
     : [];
+
+  // CHANGE 1: Fetch all locations for the selector
+  useEffect(() => {
+    async function fetchLocations() {
+      const items = await itemsService.getAll();
+      const locations = items.filter(
+        (item) => item.category?.key === "locations"
+      );
+      setAllLocations(locations);
+    }
+    fetchLocations();
+  }, []);
 
   // Fetch categories and item (if editing) on mount
   useEffect(() => {
@@ -47,8 +62,9 @@ function ItemForm() {
           setName(itemData.name);
           setDescription(itemData.description);
           setCategoryId(itemData.categoryId);
-          setImages(itemData.images || []); // Changed from setImage
+          setImages(itemData.images || []);
           setTextContent(itemData.textContent || {});
+          setNearLocationIds(itemData.nearLocationIds || []); // CHANGE 2: Load nearLocationIds
         } else {
           // New item - set first category as default
           if (categoriesData.length > 0) {
@@ -104,6 +120,15 @@ function ItemForm() {
     }));
   }
 
+  // CHANGE 3: Handle location checkbox toggle
+  function handleLocationToggle(locationId: number) {
+    setNearLocationIds((prev) =>
+      prev.includes(locationId)
+        ? prev.filter((id) => id !== locationId)
+        : [...prev, locationId]
+    );
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
@@ -128,6 +153,8 @@ function ItemForm() {
         categoryId,
         images: images.length > 0 ? images : undefined,
         textContent,
+        nearLocationIds:
+          nearLocationIds.length > 0 ? nearLocationIds : undefined, // CHANGE 4: Include nearLocationIds
       };
 
       if (isEditMode && id) {
@@ -142,7 +169,9 @@ function ItemForm() {
     } catch (err: any) {
       console.error("Error saving item:", err);
       alert(
-        t("admin.itemForm.saveFailed", { error: err.response?.data?.message || err.message })
+        t("admin.itemForm.saveFailed", {
+          error: err.response?.data?.message || err.message,
+        })
       );
     } finally {
       setSaving(false);
@@ -169,6 +198,11 @@ function ItemForm() {
     );
   }
 
+  // CHANGE 5: Check if current category should show location selector
+  const showLocationSelector =
+    selectedCategory?.key === "attractions" ||
+    selectedCategory?.key === "routes";
+
   return (
     <div
       className="bg-gray-50 min-h-screen py-8"
@@ -176,7 +210,9 @@ function ItemForm() {
     >
       <div className="container mx-auto px-4 max-w-3xl">
         <h1 className="text-3xl font-bold text-gray-800 mb-6">
-          {isEditMode ? t("admin.itemForm.titleEdit") : t("admin.itemForm.titleNew")}
+          {isEditMode
+            ? t("admin.itemForm.titleEdit")
+            : t("admin.itemForm.titleNew")}
         </h1>
 
         <form
@@ -234,13 +270,39 @@ function ItemForm() {
               ))}
             </select>
           </div>
+
+          {/* CHANGE 6: Near Locations Selector - only for attractions/routes */}
+          {showLocationSelector && allLocations.length > 0 && (
+            <div>
+              <label className="block text-gray-700 font-semibold mb-2">
+                Near which locations? (optional)
+              </label>
+              <div className="space-y-2">
+                {allLocations.map((location) => (
+                  <label
+                    key={location.id}
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={nearLocationIds.includes(location.id)}
+                      onChange={() => handleLocationToggle(location.id)}
+                      disabled={saving}
+                      className="w-4 h-4"
+                    />
+                    <span className="text-gray-700">{location.name}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Main Images */}
           <div>
             <label className="block text-gray-700 font-semibold mb-2">
               {t("common.mainImages")}
             </label>
 
-            {/* Display existing images */}
             {images.length > 0 && (
               <div className="mb-3 space-y-2">
                 {images.map((img, index) => (
@@ -272,7 +334,6 @@ function ItemForm() {
               </div>
             )}
 
-            {/* Add new image button */}
             <button
               type="button"
               onClick={() => setImages([...images, ""])}
@@ -282,6 +343,7 @@ function ItemForm() {
               + {t("common.addImage")}
             </button>
           </div>
+
           {/* Content fields based on category */}
           <div className="border-t pt-6">
             <h2 className="text-xl font-bold text-gray-800 mb-4">
@@ -391,10 +453,15 @@ function ItemForm() {
               disabled={saving}
               className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-blue-300"
             >
-              {saving ? t("common.saving") : isEditMode ? t("common.update") : t("common.create")}
+              {saving
+                ? t("common.saving")
+                : isEditMode
+                ? t("common.update")
+                : t("common.create")}
             </button>
           </div>
         </form>
+
         {/* Manage SubItems - only show in edit mode and for locations */}
         {isEditMode && selectedCategory?.key === "locations" && (
           <div className="bg-white rounded-lg shadow-md p-6 mt-6">

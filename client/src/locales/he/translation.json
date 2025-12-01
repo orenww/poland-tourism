@@ -12,7 +12,7 @@
       "locations": "מקומות",
       "attractions": "אטרקציות",
       "routes": "מסלולים",
-      "discounts": "הנחות"
+      "benefits": "הטבות"
     }
   },
   "detail": {
@@ -34,7 +34,7 @@
       "Itinerary": "מסלול",
       "Map": "מפה",
       "Budget": "תקציב",
-      "Discounts": "הנחות"
+      "Benefits": "הטבות"
     }
   },
   "common": {

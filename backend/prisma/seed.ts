@@ -9,18 +9,21 @@ async function main() {
       data: {
         key: 'locations',
         icon: 'map-pin',
+        order: 1, // ADD THIS
       },
     }),
     prisma.category.create({
       data: {
         key: 'attractions',
         icon: 'compass',
+        order: 2, // ADD THIS
       },
     }),
     prisma.category.create({
       data: {
         key: 'routes',
         icon: 'route',
+        order: 3, // ADD THIS
       },
     }),
   ]);

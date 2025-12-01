@@ -3,6 +3,7 @@ CREATE TABLE "Category" (
     "id" SERIAL NOT NULL,
     "key" TEXT NOT NULL,
     "icon" TEXT,
+    "order" INTEGER NOT NULL DEFAULT 0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -15,6 +16,7 @@ CREATE TABLE "Item" (
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "categoryId" INTEGER NOT NULL,
+    "nearLocationIds" JSONB NOT NULL DEFAULT '[]',
     "images" JSONB NOT NULL DEFAULT '[]',
     "textContent" JSONB NOT NULL DEFAULT '{}',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -36,6 +38,7 @@ CREATE TABLE "SubItem" (
     "hours" TEXT,
     "ticketPrice" TEXT,
     "type" TEXT,
+    "benefit" TEXT,
     "images" JSONB NOT NULL DEFAULT '[]',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
