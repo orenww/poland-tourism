@@ -8,9 +8,11 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { CategoriesModule } from './categories/categories.module';
 import { SubitemsModule } from './subitems/subitems.module';
+import { CacheModule } from './cache/cache.module';
 
 @Module({
   imports: [
+    CacheModule,
     ThrottlerModule.forRoot([
       {
         ttl: 60000, // 60 seconds

@@ -3,15 +3,24 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateSubItemDto } from './dto/create-subitem.dto';
 import { UpdateSubItemDto } from './dto/update-subitem.dto';
+import { CacheService } from 'src/cache/cache.service';
 
 @Injectable()
 export class SubitemsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private cacheService: CacheService,
+  ) {}
 
-  create(createSubitemDto: CreateSubItemDto) {
-    return this.prisma.subItem.create({
+  async create(createSubitemDto: CreateSubItemDto) {
+    const subItem = await this.prisma.subItem.create({
       data: createSubitemDto,
     });
+
+    // Clear cache for parent item and all items
+    await this.cacheService.deletePattern('items:*');
+
+    return subItem;
   }
 
   findAll() {
@@ -34,16 +43,24 @@ export class SubitemsService {
     });
   }
 
-  update(id: number, updateSubitemDto: UpdateSubItemDto) {
-    return this.prisma.subItem.update({
+  async update(id: number, updateSubitemDto: UpdateSubItemDto) {
+    const subItem = await this.prisma.subItem.update({
       where: { id },
       data: updateSubitemDto,
     });
+
+    // Clear cache for parent item and all items
+    await this.cacheService.deletePattern('items:*');
+
+    return subItem;
   }
 
-  remove(id: number) {
-    return this.prisma.subItem.delete({
+  async remove(id: number) {
+    await this.prisma.subItem.delete({
       where: { id },
     });
+
+    // Clear cache for parent item and all items
+    await this.cacheService.deletePattern('items:*');
   }
 }
